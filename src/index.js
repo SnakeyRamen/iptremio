@@ -5,7 +5,6 @@ const express = require('express');
 const database = require('./services/database');
 
 const manifestRouter = require('./routes/manifest');
-const catalogRouter = require('./routes/catalog');
 const streamRouter = require('./routes/stream');
 const redirectRouter = require('./routes/redirect');
 const metaRouter = require('./routes/meta');
@@ -18,7 +17,6 @@ app.use(express.static('public'));
 
 // Apply config and XtreamClient middleware within each route file instead
 app.use('/', manifestRouter); // Route for manifest
-app.use('/', catalogRouter); // Route for catalog
 app.use('/', streamRouter); // Route for stream
 app.use('/', redirectRouter); // Route for redirect
 app.use('/', metaRouter); // Route for meta
