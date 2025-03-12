@@ -10,9 +10,7 @@ const xtreamClientMiddleware = require('../middleware/xtreamClientMiddleware');
  */
 router.get('/:config/manifest.json', configMiddleware, xtreamClientMiddleware, async (req, res) => {
     try {
-        const client = req.xtreamClient; // Use XtreamClient from middleware
-        const liveCategories = await client.getLiveCategories();
-
+        const client = req.xtreamClient;
         const manifestName = config.isDev
             ? `[DEV] [${client.config.host}] IPTremio`
             : `[${client.config.host}] IPTremio`;
@@ -22,22 +20,9 @@ router.get('/:config/manifest.json', configMiddleware, xtreamClientMiddleware, a
             version: '1.0.0',
             name: manifestName,
             description: 'Watch Xtream-codes content on Stremio',
-            resources: ['catalog', 'stream', 'meta'],
-            types: ['movie', 'series', 'tv'],
+            resources: ['stream', 'meta'], // Removed 'catalog'
+            types: ['movie', 'series'], // Removed 'tv'
             idPrefixes: ['iptremio:', 'tt'],
-            catalogs: [
-                {
-                    type: 'tv',
-                    id: 'iptremio_live_tv',
-                    name: `[${client.config.host}] IPTremio Live TV`,
-                    extra: [
-                        {
-                            name: 'genre',
-                            options: liveCategories.map(cat => cat.category_name)
-                        }
-                    ]
-                }
-            ]
         };
 
         return res.json(manifest);
@@ -49,9 +34,8 @@ router.get('/:config/manifest.json', configMiddleware, xtreamClientMiddleware, a
             version: '1.0.0',
             name: 'iptremio [ERROR]',
             description: 'Error loading manifest',
-            resources: ['catalog', 'stream', 'meta'],
-            types: ['movie', 'series', 'tv'],
-            catalogs: []
+            resources: ['stream', 'meta'], // Removed 'catalog'
+            types: ['movie', 'series'], // Removed 'tv'
         });
     }
 });
