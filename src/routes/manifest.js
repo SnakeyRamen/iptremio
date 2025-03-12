@@ -4,10 +4,6 @@ const config = require('../config');
 const configMiddleware = require('../middleware/configMiddleware');
 const xtreamClientMiddleware = require('../middleware/xtreamClientMiddleware');
 
-/**
- * GET /:config/manifest.json
- * Generates and returns the Stremio manifest
- */
 router.get('/:config/manifest.json', configMiddleware, xtreamClientMiddleware, async (req, res) => {
     try {
         const client = req.xtreamClient;
@@ -20,22 +16,26 @@ router.get('/:config/manifest.json', configMiddleware, xtreamClientMiddleware, a
             version: '1.0.0',
             name: manifestName,
             description: 'Watch Xtream-codes content on Stremio',
-            resources: ['stream'], // Removed 'meta'
-            types: ['movie', 'series'], // Removed 'tv'
+            resources: ['stream'],
+            types: ['movie', 'series'],
             idPrefixes: ['iptremio:', 'tt'],
+            catalogs: [],
+            behaviorHints: {
+                configurable: false,
+                configurationRequired: false
+            }
         };
 
         return res.json(manifest);
     } catch (error) {
-        console.error('[Manifest] Error:', error.message);
-
         return res.status(500).json({
             id: 'org.iptremio',
             version: '1.0.0',
             name: 'iptremio [ERROR]',
             description: 'Error loading manifest',
-            resources: ['stream'], // Removed 'meta'
-            types: ['movie', 'series'], // Removed 'tv'
+            resources: ['stream'],
+            types: ['movie', 'series'],
+            catalogs: []
         });
     }
 });
