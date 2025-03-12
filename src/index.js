@@ -10,7 +10,7 @@ const streamRouter = require('./routes/stream');
 const redirectRouter = require('./routes/redirect');
 const metaRouter = require('./routes/meta');
 const configureRouter = require('./routes/configure');
-const EpgJob = require('./cron/epgJob');
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -27,6 +27,4 @@ app.use('/', configureRouter); // Route for configure
 app.listen(config.PORT, config.HOST, async () => {
     console.log(`Server running at ${config.BASE_URL}`);
     await database.connect();
-    const epgJob = new EpgJob();
-    epgJob.start();
 });
