@@ -20,7 +20,7 @@ router.get('/:config/manifest.json', configMiddleware, xtreamClientMiddleware, a
             version: '1.0.0',
             name: manifestName,
             description: 'Watch Xtream-codes content on Stremio',
-            resources: ['stream', 'meta'], // Removed 'catalog'
+            resources: ['stream'], // Removed 'meta'
             types: ['movie', 'series'], // Removed 'tv'
             idPrefixes: ['iptremio:', 'tt'],
         };
@@ -34,7 +34,7 @@ router.get('/:config/manifest.json', configMiddleware, xtreamClientMiddleware, a
             version: '1.0.0',
             name: 'iptremio [ERROR]',
             description: 'Error loading manifest',
-            resources: ['stream', 'meta'], // Removed 'catalog'
+            resources: ['stream'], // Removed 'meta'
             types: ['movie', 'series'], // Removed 'tv'
         });
     }
